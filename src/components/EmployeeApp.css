@@ -1,0 +1,13 @@
+label , input, button {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin: 10px;
+    padding: 5px;
+}
+
+footer{
+    bottom: 0;
+    position: absolute;
+    width: 90%;
+    height: 50px;
+}
