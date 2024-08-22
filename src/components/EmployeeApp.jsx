@@ -7,6 +7,7 @@ import EmployeeListComponent from "./EmployeeList";
 import LoginComponent from "./Login";
 import ErrorComponent from "./Error";
 import AuthProvider, { useAuth } from "./security/AuthContext";
+import EmployeeComponent from "./EmployeeComponent";
 
 function AuthenticatedRoute({ children }) {
   const authContext = useAuth();
@@ -48,6 +49,16 @@ export default function EmployeeApp() {
                 </AuthenticatedRoute>
               }
             />
+
+            <Route
+              path="/dashboard/:id"
+              element={
+                <AuthenticatedRoute>
+                  <EmployeeComponent />
+                </AuthenticatedRoute>
+              }
+            />
+            
 
             <Route
               path="/logout"

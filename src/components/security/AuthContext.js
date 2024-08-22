@@ -6,14 +6,22 @@ export const AuthContext = createContext()
 
 export const useAuth = () => useContext(AuthContext)
 
+
 export default function AuthProvider({ children }) {
 
+
+
+    const [username,setUsername] = useState(null)
+
+
     function login(username, password) {
-        if(username==='admin' && password==='admin'){
+        if(username==='admin1' && password==='admin1'){
             setAuthenticated(true)
+            setUsername(username)
             return true            
         } else {
             setAuthenticated(false)
+            setUsername(null)
             return false
         }        
     }
@@ -26,7 +34,7 @@ export default function AuthProvider({ children }) {
     const [isAuthenticated, setAuthenticated] = useState(false)
 
     return (
-        <AuthContext.Provider value={ { isAuthenticated,login, logout} }>
+        <AuthContext.Provider value={ { isAuthenticated,login, logout,username} }>
             {children}
         </AuthContext.Provider>
     )

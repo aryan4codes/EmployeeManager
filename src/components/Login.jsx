@@ -5,7 +5,7 @@ export default function LoginComponent() {
 
 
 
-    const [username, setUsername] = useState("admin");
+    const [username, setUsername] = useState("admin1");
   
     const [password, setPassword] = useState("");
 
