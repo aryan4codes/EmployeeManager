@@ -3,7 +3,7 @@ import { useAuth } from "./security/AuthContext";
 export default function HeaderComponent() {
   const authContext = useAuth();
   const isAuthenticated = authContext.isAuthenticated;
-
+  const username = authContext.username
   function logout() {
     authContext.logout();
   }
@@ -23,7 +23,7 @@ export default function HeaderComponent() {
               <ul className="navbar-nav">
                 <li className="nav-item">
                   {isAuthenticated && (
-                    <Link className="nav-link" to="/welcome/admin1">
+                    <Link className="nav-link" to={`/welcome/${username}`}>
                       Home
                     </Link>
                   )}
