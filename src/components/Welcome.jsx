@@ -34,7 +34,7 @@ export default function WelcomeComponent() {
   // }
   return (
     <div className="Welcome">
-      <h1>Welcome to EmployeeManager , {username}</h1>
+      <h1>Welcome to ManageYourEmployee.io , {username}</h1>
       <div>
         Manage Employees- <Link to="/dashboard">Go here</Link>
       </div>
