@@ -43,7 +43,7 @@ export default function LoginComponent() {
         <div className="LoginForm">
           <h1>Login</h1>
           <div>
-            <h2>Use "admin1" as username and password for testing purposes</h2>
+            <h4>Use "admin1" as username and password for testing purposes</h4>
             <label>User Name:</label>
             <input
               type="text"
