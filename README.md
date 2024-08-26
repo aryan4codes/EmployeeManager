@@ -36,7 +36,7 @@ ManageYourEmployee.io is a web application designed for managing employee data. 
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/manage-youremployee.io.git
+   git clone https://github.com/yourusername/manage-youremployee-backend.io.git
    cd manage-youremployee.io
    ```
 
