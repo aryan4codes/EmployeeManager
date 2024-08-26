@@ -23,7 +23,7 @@ export default function HeaderComponent() {
               <ul className="navbar-nav">
                 <li className="nav-item">
                   {isAuthenticated && (
-                    <Link className="nav-link" to="/welcome/in28minutes">
+                    <Link className="nav-link" to="/welcome/admin1">
                       Home
                     </Link>
                   )}
