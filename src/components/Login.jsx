@@ -24,12 +24,12 @@ export default function LoginComponent() {
       setPassword(event.target.value);
     }
   
-    function handleSubmit() {
-        if(authContext.login(username, password)){
-    
-        navigate(`/welcome/${username}`);
+//async await
+    async function handleSubmit() {
+      if(await authContext.login(username, password)){
+          navigate(`/welcome/${username}`)
       } else {
-        setShowErrorMessage(true);
+          setShowErrorMessage(true)
       }
     }
   

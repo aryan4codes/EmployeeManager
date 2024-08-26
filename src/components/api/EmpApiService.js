@@ -1,10 +1,4 @@
-import axios from 'axios'
-const apiClient = axios.create(
-    {
-        baseURL: 'http://localhost:8080'
-    }
-);
-
+import { apiClient } from "./ApiClient";
 export const retrieveEmpForUsername 
     = (username) => apiClient.get(`/admins/${username}/employees`)
 
@@ -17,3 +11,6 @@ export const retrieveEmpApi = (username,id) => apiClient.get(`/admins/${username
 export const updateEmpApi = (username, id, employee) => 
     apiClient.put(`/admins/${username}/employees/${id}`, employee);
   
+export const createEmpApi = (username, employee) => 
+    apiClient.post(`/admins/${username}/employees`, employee);
+

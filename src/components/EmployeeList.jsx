@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { retrieveEmpForUsername, deleteEmpApi } from "./api/EmpApiService";
 import { useAuth } from "./security/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function EmployeeListComponent() {
   const [emp, setEmp] = useState([]);
@@ -9,16 +9,23 @@ export default function EmployeeListComponent() {
   const authContext = useAuth();
   const username = authContext.username;
   const navigate =useNavigate();
+
+  const { id } = useParams(); // Destructuring id from useParams
+
   useEffect(() => {
-    function refreshEmps() {
-      retrieveEmpForUsername(username)
-        .then((response) => {
-          setEmp(response.data);
-        })
-        .catch((error) => console.log(error));
+    // Only call retrieveEmpForUsername if id is not -1
+    if (id !== "-1") {
+      const refreshEmps = () => {
+        retrieveEmpForUsername(username, id)
+          .then((response) => {
+            setEmp(response.data);
+          })
+          .catch((error) => console.log(error));
+      };
+
+      refreshEmps();
     }
-    refreshEmps();
-  }, [username]);
+  }, [username, id]);
 
   function deleteEmp(id) {
     console.log("deleteEmp " + id);
@@ -26,11 +33,13 @@ export default function EmployeeListComponent() {
       .then(() => {
         setMessage(`Delete of Emp with id = ${id} successful`);
         // Call refreshEmps again after deletion
-        retrieveEmpForUsername(username)
-          .then((response) => {
-            setEmp(response.data);
-          })
-          .catch((error) => console.log(error));
+        if (id !== "-1") {
+          retrieveEmpForUsername(username)
+            .then((response) => {
+              setEmp(response.data);
+            })
+            .catch((error) => console.log(error));
+        }
       })
       .catch((error) => console.log(error));
   }
@@ -40,6 +49,11 @@ export default function EmployeeListComponent() {
     navigate(`/dashboard/${id}`)
     // You can navigate to an update page or open a modal here
   }
+  
+  function addNewEmployee() {
+    navigate(`/dashboard/-1`)
+}
+
 
   return (
     <div className="container">
@@ -80,6 +94,7 @@ export default function EmployeeListComponent() {
             ))}
           </tbody>
         </table>
+         <div className="btn btn-success m-5" onClick={addNewEmployee}>Add New Employee</div>
       </div>
     </div>
   );

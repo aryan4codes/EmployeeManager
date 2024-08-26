@@ -1,24 +1,25 @@
 import { useParams,useNavigate } from "react-router-dom"
 import { useAuth } from "./security/AuthContext";
-import { retrieveEmpApi,updateEmpApi } from "./api/EmpApiService";
+import { createEmpApi, retrieveEmpApi,updateEmpApi } from "./api/EmpApiService";
 import { useState,useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import './EmployeeComponent.css'; 
+
+
 const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     email: Yup.string().email("Invalid email format").required("Email is required"),
     designation: Yup.string().required("Designation is required"),
 });
+
+
 export default function EmployeeComponent() {
 
     const {id} = useParams();
     const authContext = useAuth();
     const username = authContext.username;
     const navigate = useNavigate();
-    // const [name, setName] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [designation, setDesignation] = useState("");
     const [initialValues, setInitialValues] = useState({
         name: "",
         email: "",
@@ -28,10 +29,14 @@ export default function EmployeeComponent() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     useEffect(() => {
-        retrieveEmpDetails(username, id);
-      }, [id, username]);
+        if (id !== "-1") {  // Only fetch details if id is not -1
+            retrieveEmpDetails(username, id);
+        } else {
+            setIsLoading(false);  // Skip loading if it's a new employee
+        }
+    }, [id, username]);
 
-      const retrieveEmpDetails = (username, id) => {
+    const retrieveEmpDetails = (username, id) => {
         setIsLoading(true);
         retrieveEmpApi(username, id)
             .then((response) => {
@@ -49,7 +54,22 @@ export default function EmployeeComponent() {
     };
 
     const handleSubmit = (values, { setSubmitting }) => {
-        updateEmpApi(username, id, values)
+
+        if(id!==-1){
+            
+            createEmpApi(username, values)
+            .then(() => {
+                alert("Employee created successfully.");
+                setSubmitting(false);
+                navigate("/dashboard")
+            })
+            .catch((error) => {
+                setError("Failed to create employee details.");
+                setSubmitting(false);
+            });
+        }
+        else {
+            updateEmpApi(username, id, values)
             .then(() => {
                 alert("Employee details updated successfully.");
                 setSubmitting(false);
@@ -59,13 +79,15 @@ export default function EmployeeComponent() {
                 setError("Failed to update employee details.");
                 setSubmitting(false);
             });
+        }
+        
     };
 
     if (isLoading) {
         return <div>Loading...</div>;
     }
 
-    if (error) {
+    if (error && id !== "-1") {  // Show error only if not creating a new employee
         return <div>{error}</div>;
     }
     return (
